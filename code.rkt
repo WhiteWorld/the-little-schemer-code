@@ -14,9 +14,24 @@
 (define member?
   (lambda (a lat)
     (cond
-      (null? #f)
+      ((null? lat) #f)
       ((eq? a (car lat)) #t)
       (else (member? a (cdr lat))))))
+
+(define rember
+  (lambda (a lat)
+     (cond
+        ((null? lat) (quote()))
+        ((eq? (car lat) a) (cdr lat))
+        (else (cons (car lat) 
+             (rember a (cdr lat)))))))
+;firsts
+(define firsts
+  (lambda (l)
+    (cond
+      ((null? l) '())
+      (else 
+         (cons (car (car l)) (firsts (cdr l)))))))
 
 ;Toys
 ;;Is an atom?
@@ -99,3 +114,130 @@
 
 (member? 'tea '(coffee tea or milk))
 (member? 'poached '(fried eggs and scrambled eggs))
+(member? 'meat '(mashed potatoes and meat gravy))
+(member? 'liver '())
+(or (eq? (car '(lox)) 'liver)
+    (member? 'liver (cdr '(lox))))
+(member? 'liver '(lox))
+(or (eq? (car '(and lox)) 'liver)
+    (member? 'liver (cdr '(low))))
+(member? 'liver '(and lox))
+(or (eq? (car '(bagels and lox)) 'liver)
+         (member? 'liver '(bagels and lox)))
+(member? 'liver '(bagels and lox))
+
+;Cons the Magnificent
+(rember 'bacon '(bacon lettuce and tomato))
+ 
+;firsts
+(firsts '((five plums) (four) (eleven green oranges)))
+
+;define insertR
+(define insertR
+  (lambda (new old lat)
+    (cond
+      ((null? lat) '())
+      ((eq? (car lat) old)
+          (cons old 
+             (cons new (cdr lat))))
+      (else
+        (cons (car lat)(insertR new old (cdr lat)))))))
+
+;define insertL
+(define insertL
+  (lambda (new old lat)
+    (cond
+      ((null? lat) '())
+      ((eq? (car lat) old)
+          (cons new lat))
+      (else
+        (cons (car lat)(insertR new old (cdr lat)))))))
+
+(insertR 'topping 'fudge '(ice cream with fudge for dessert))
+(insertR 'jalapeno 'and '(tacos tamales and salsa))
+(insertR 'e 'd '(a b c d f g d h))   
+(insertR 'a 'b '())
+
+;define subst
+(define subst
+  (lambda (new old lat)
+    (cond
+      ((null? lat) '())
+      ((eq? (car lat) old)
+           (cons new (cdr lat)))
+      (else
+           (cons (car lat)
+              (subst new old 
+                     (cdr lat)))))))
+(subst 'topping 'fudge '(ice cream with fudge for dessert))    
+
+;define subst2
+(define subst2
+  (lambda (new o1 o2 lat)
+    (cond
+      ((null? lat)'())
+      (else(cond
+          ((or (eq? o1 (car lat)) (eq? o2 (car lat)))
+                (cons new (cdr lat)))
+          (else
+                (cons (car lat) (subst2 new o1 o2 (cdr lat)))))))))
+
+(subst2 'vanilla 'chocolate 'banana '(banana ice cream with chocolate topping))
+
+;define multirember
+(define multirember
+  (lambda (a lat)
+    (cond
+      ((null? lat) '())
+      (else
+       (cond
+         ((eq? a (car lat)) 
+          (multirember a (cdr lat)))
+         (else
+          (cons (car lat) 
+                (multirember a 
+                             (cdr lat)))))))))
+(multirember 'cup '(coffee cup tea cup and hick cup))
+
+;define multiinsertR
+(define multiinsertR
+  (lambda (new old lat)
+    (cond
+      ((null? '()))
+      (else
+       (cond
+         ((eq? old (car lat))
+          (cons (car lat)
+                (cons new
+                      (multiinsertR new old (cdr lat)))))
+         (else
+          (cons (car lat) multiinsertR(new old (cdr lat)))))))))
+
+;define multiinsertL
+(define multiinsertL
+  (lambda (new old lat)
+    (cond
+      ((null? '()))
+      (else
+       (cond
+         ((eq? old (car lat))
+          (cons new
+                (cons old
+                      (multiinsertL new old (cdr lat)))))
+         (else
+          (cons (car lat) multiinsertL(new old (cdr lat)))))))))
+
+;define multisubst
+(define multisubst
+  (lambda (new old lat)
+    (cond
+      ((null? lat) '())
+      (else
+       (cond
+         ((eq? old (car lat))
+          (cons new 
+                (multisubst new old (cdr lat))))
+         (else
+          (cons (car lat) 
+                (multisubst new old (cdr lat)))))))))
+
