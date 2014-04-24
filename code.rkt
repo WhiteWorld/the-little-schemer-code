@@ -411,3 +411,94 @@
                             (car l))
                   (insertR* new old
                             (cdr l)))))))
+;define occur*
+(define occur*
+  (lambda (a l)
+    (cond
+      ((null? l)0)
+      ((atom? (car l))
+              (cond
+                ((eq? a (car l))
+                 (add1 (occur* a (cdr l))))
+                (else
+                 (occur* a (cdr l)))))
+       (else
+        (+  (occur* a (car l))
+             (occur* a (cdr l)))))))
+
+;define subst*
+(define subst*
+  (lambda (new old l)
+    (cond
+      ((null? l)'())
+      ((atom? (car l))
+       (cond
+         ((eq? old (car l))
+          (cons new (subst* new old (cdr l))))
+         (else
+          (cons (car l) (subst* new old (cdr l))))))
+       (else
+        (cons 
+         (subst* new old (car l)) 
+         (subst* new old (cdr l)))))))
+;insertL*
+(define insertL*
+  (lambda (new old l)
+    (cond
+      ((null? l)'())
+      ((atom?(car l))
+       (cond
+         ((eq? old (car l))
+          (cons new 
+                (cons old 
+                      (insertL* new old (cdr l)))))
+         (else (cons (car l) 
+                     (insertL* new old (cdr l))))))
+       (else
+        (cons
+         (insertL* new old (car l))
+         (insertL* new old (cdr l)))))))
+
+;member*
+(define member*
+  (lambda (a l)
+    (cond
+      ((null? l) #f)
+       ((atom? (car l))
+        (cond
+          ((eq? a (car l)) #t)
+          (else (member* a (cdr l)))))
+       (else
+        (or (member* a (car l)) (member* a (cdr l)))))))
+               
+;leftmost 
+(define leftmost
+  (lambda (l)
+    (cond
+    ((atom? (car l)) (car l))
+    (else
+     (leftmost (car l))))))
+
+;define eqlist
+(define eqlist?
+  (lambda (l1 l2)
+    (cond
+      ((and (null? l1) (null? l2)) #t)
+      ((or (null? l1) (null? l2)) #f)
+      ((and (atom? (car l1)) (atom? (car l2)))
+       (and (eq? (car l1) (car l2))
+            (eqlist? (cdr l1) (cdr l2))))
+      ((or (atom? (car l1)) (atom? (car l2))) #f)
+      (else
+       (and
+        (eqlist? (car l1) (car l2))
+        (eqlist? (cdr l1) (cdr l2)))))))
+      
+       
+      
+      
+      
+(eqlist? '(strawberry ice cream) '(strawberry ice cream)) 
+
+
+;;6
