@@ -366,3 +366,48 @@
       (= n 1)))
       
 (one? 3)
+
+;define rempick1
+(define rempick1
+  (lambda (n lat)
+    (cond
+      ((one? n)(cdr lat))
+      (else
+       (cons (car lat) (rempick1 (sub1 n) (cdr lat)))))))
+(rempick1 3 '(lemon meringue salty pie))
+
+;5
+;define rember*
+(define rember*
+  (lambda (a l)
+    (cond
+      ((null? l) '())
+      ((atom? (car l))
+       (cond
+        ((eq? (car l) a)
+         (rember* a (cdr l)))
+         (else (cons (car l)
+                     (rember* a (cdr l))))))
+       (else (cons (rember* a (car l)) (rember* a (cdr l)))))))
+
+(lat? '((tomato sauce) ((bean)sauce)(and ((flying)) sauce)))
+
+;define insertR*
+(define insertR*
+  (lambda (new old l)
+    (cond
+      ((null? l)'())
+      ((atom? (car l))
+       (cond
+         ((eq? (car l) old)
+          (cons old
+                (cons new 
+                      (insertR* new old
+                                (cdr l)))))
+         (else (cons (car l) 
+                     (insertR* new old
+                               (cdr l))))))
+      (else (cons (insertR* new old 
+                            (car l))
+                  (insertR* new old
+                            (cdr l)))))))
