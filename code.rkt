@@ -241,3 +241,128 @@
           (cons (car lat) 
                 (multisubst new old (cdr lat)))))))))
 
+;Numbers Games
+(atom?  14)
+(atom? -3)
+(atom? 3.14159)
+(+ 67 1)
+;define add1
+(define add1
+  (lambda (n)
+    (+ n 1)))
+(add1 67)
+;define sub1
+(define sub1
+  (lambda (n)
+    (- n 1)))
+(sub1 5)
+(sub1 0)
+(zero? 0)
+(zero? 1492)
+(- 14 3)
+(- 17 9)
+(- 18 25)
+
+;define -
+#|
+(define -
+  (lambda (a b)
+    (cond
+    ((zero? a) b)
+    (else (sub1 (- a (sub1 b)))))))
+|#
+
+;tuple (a list of numbers)
+
+;define addtup
+(define addtup
+  (lambda (tup)
+    (cond
+      ((null? tup)0)
+      (else (+ (car tup) (addtup (cdr tup)))))))
+(addtup '(1 3 4))
+;define tup+
+(define tup+
+  (lambda (tup1 tup2)
+    (cond
+      ((and (null? tup1)(null? tup2)) '())
+      (else
+       (cons (+ (car tup1) (car tup2)) (tup+ (cdr tup1) (cdr tup2)))))))
+
+(tup+ '(1 2) '(3 4))
+
+;define length
+(define length
+  (lambda (lat)
+    (cond
+      ((null? lat)0)
+      (else (add1 (length (cdr lat)))))))
+(length '(1 2 3))
+
+;define pick
+(define pick
+  (lambda (n lat)
+    (cond
+      ((zero? (sub1 n)) (car lat))
+      (else (pick (sub1 n) (cdr lat))))))
+(pick 3 '(aa bb cc dd))
+
+;define rempick
+(define rempick
+  (lambda (n lat)
+    (cond
+      ((zero? (sub1 n)) (cdr lat))
+      (else (cons (car lat) (rempick (sub1 n) (cdr lat)))))))
+
+(rempick 3 '(hotdogs with hot mustard))
+
+(number? 'a)
+(number? 12)
+
+;define no-nums
+(define no-nums
+  (lambda (lat)
+    (cond
+      ((null? lat)'())
+      (else
+       (cond
+       ((number? (car lat)) (no-nums (cdr lat)))
+       (else
+       (cons (car lat) (no-nums (cdr lat)))))))))
+(no-nums '(5 pears 6 prunes 9 dates))
+
+;define all-nums
+(define all-nums
+  (lambda (lat)
+    (cond
+      ((null? lat))
+      (else
+       (cond
+         ((number?(car lat))
+          (cons (car lat)
+                (all-nums (cdr lat))))
+         (else (all-nums (cdr lat))))))))
+
+;define eqan
+(define eqan
+  (lambda (a1 a2)
+    (cond
+      ((and (number? a1) (number? a2)) (= a1 a2))
+      ((or (number? a1) (number? a2)) #f)
+      (else (eq? a1 a2)))))
+;occur
+(define occur
+  (lambda (a lat)
+    (cond
+      ((null? lat) 0)
+      (else
+       (cond
+         ((eq? (car lat))
+          (add1 (occur a (cdr lat))))
+         (else (occur a (cdr lat))))))))
+;define one
+(define one?
+  (lambda (n)
+      (= n 1)))
+      
+(one? 3)
