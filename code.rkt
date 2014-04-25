@@ -413,3 +413,50 @@
                             (cdr l)))))))
 
 ;use help commandment
+
+
+
+
+
+;7
+(define set?
+  (lambda (lat)
+    (cond
+      ((null? lat) #t)
+      ((member? (car lat) (cdr lat)) #f)
+       (else (set? (cdr lat))))))
+
+;define makeset
+(define makeset
+  (lambda (lat)
+    (cond
+      ((null? lat)(quote ()))
+      ((member? (car lat) (cdr lat))
+       (makeset (cdr lat)))
+      (else (cons (car lat)
+                  (makeset (cdr lat)))))))
+(define makeset1
+  (lambda (lat)
+    (cond
+      ((null? lat)(quote()))
+      (else (cons (car lat)
+                  (makeset
+                   (multirember (car lat)
+                                (cdr lat))))))))
+
+(define subset?
+  (lambda (set1 set2)
+    (cond
+      ((null? set1) #t)
+      (else
+       (cond
+         ((member?(car set1) set2)
+          (subset? (cdr set1) set2))
+         (else #f ))))))
+
+(define eqset?
+  (lambda (set1 set2)
+    (cond
+      ((subset? set1 set2)
+       (subset? set2 set1))
+      (else #f))))
