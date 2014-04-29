@@ -6,10 +6,10 @@
 ;define lambda
 (define lat?
   (lambda (l)
-          (cond
-            ((null? l) #t)
-            ((atom? (car l)) (lat? (cdr l)))
-            (else #f))))
+    (cond
+      ((null? l) #t)
+      ((atom? (car l)) (lat? (cdr l)))
+      (else #f))))
 
 (define member?
   (lambda (a lat)
@@ -20,18 +20,18 @@
 
 (define rember
   (lambda (a lat)
-     (cond
-        ((null? lat) (quote()))
-        ((eq? (car lat) a) (cdr lat))
-        (else (cons (car lat) 
-             (rember a (cdr lat)))))))
+    (cond
+      ((null? lat) (quote()))
+      ((eq? (car lat) a) (cdr lat))
+      (else (cons (car lat) 
+                  (rember a (cdr lat)))))))
 ;firsts
 (define firsts
   (lambda (l)
     (cond
       ((null? l) '())
       (else 
-         (cons (car (car l)) (firsts (cdr l)))))))
+       (cons (car (car l)) (firsts (cdr l)))))))
 
 ;Toys
 ;;Is an atom?
@@ -123,12 +123,12 @@
     (member? 'liver (cdr '(low))))
 (member? 'liver '(and lox))
 (or (eq? (car '(bagels and lox)) 'liver)
-         (member? 'liver '(bagels and lox)))
+    (member? 'liver '(bagels and lox)))
 (member? 'liver '(bagels and lox))
 
 ;Cons the Magnificent
 (rember 'bacon '(bacon lettuce and tomato))
- 
+
 ;firsts
 (firsts '((five plums) (four) (eleven green oranges)))
 
@@ -138,10 +138,10 @@
     (cond
       ((null? lat) '())
       ((eq? (car lat) old)
-          (cons old 
+       (cons old 
              (cons new (cdr lat))))
       (else
-        (cons (car lat)(insertR new old (cdr lat)))))))
+       (cons (car lat)(insertR new old (cdr lat)))))))
 
 ;define insertL
 (define insertL
@@ -149,9 +149,9 @@
     (cond
       ((null? lat) '())
       ((eq? (car lat) old)
-          (cons new lat))
+       (cons new lat))
       (else
-        (cons (car lat)(insertR new old (cdr lat)))))))
+       (cons (car lat)(insertR new old (cdr lat)))))))
 
 (insertR 'topping 'fudge '(ice cream with fudge for dessert))
 (insertR 'jalapeno 'and '(tacos tamales and salsa))
@@ -164,11 +164,11 @@
     (cond
       ((null? lat) '())
       ((eq? (car lat) old)
-           (cons new (cdr lat)))
+       (cons new (cdr lat)))
       (else
-           (cons (car lat)
-              (subst new old 
-                     (cdr lat)))))))
+       (cons (car lat)
+             (subst new old 
+                    (cdr lat)))))))
 (subst 'topping 'fudge '(ice cream with fudge for dessert))    
 
 ;define subst2
@@ -177,10 +177,10 @@
     (cond
       ((null? lat)'())
       (else(cond
-          ((or (eq? o1 (car lat)) (eq? o2 (car lat)))
-                (cons new (cdr lat)))
-          (else
-                (cons (car lat) (subst2 new o1 o2 (cdr lat)))))))))
+             ((or (eq? o1 (car lat)) (eq? o2 (car lat)))
+              (cons new (cdr lat)))
+             (else
+              (cons (car lat) (subst2 new o1 o2 (cdr lat)))))))))
 
 (subst2 'vanilla 'chocolate 'banana '(banana ice cream with chocolate topping))
 
@@ -326,9 +326,9 @@
       ((null? lat)'())
       (else
        (cond
-       ((number? (car lat)) (no-nums (cdr lat)))
-       (else
-       (cons (car lat) (no-nums (cdr lat)))))))))
+         ((number? (car lat)) (no-nums (cdr lat)))
+         (else
+          (cons (car lat) (no-nums (cdr lat)))))))))
 (no-nums '(5 pears 6 prunes 9 dates))
 
 ;define all-nums
@@ -363,8 +363,8 @@
 ;define one
 (define one?
   (lambda (n)
-      (= n 1)))
-      
+    (= n 1)))
+
 (one? 3)
 
 ;define rempick1
@@ -384,11 +384,11 @@
       ((null? l) '())
       ((atom? (car l))
        (cond
-        ((eq? (car l) a)
-         (rember* a (cdr l)))
+         ((eq? (car l) a)
+          (rember* a (cdr l)))
          (else (cons (car l)
                      (rember* a (cdr l))))))
-       (else (cons (rember* a (car l)) (rember* a (cdr l)))))))
+      (else (cons (rember* a (car l)) (rember* a (cdr l)))))))
 
 (lat? '((tomato sauce) ((bean)sauce)(and ((flying)) sauce)))
 
@@ -417,14 +417,14 @@
     (cond
       ((null? l)0)
       ((atom? (car l))
-              (cond
-                ((eq? a (car l))
-                 (add1 (occur* a (cdr l))))
-                (else
-                 (occur* a (cdr l)))))
-       (else
-        (+  (occur* a (car l))
-             (occur* a (cdr l)))))))
+       (cond
+         ((eq? a (car l))
+          (add1 (occur* a (cdr l))))
+         (else
+          (occur* a (cdr l)))))
+      (else
+       (+  (occur* a (car l))
+           (occur* a (cdr l)))))))
 
 ;define subst*
 (define subst*
@@ -437,10 +437,10 @@
           (cons new (subst* new old (cdr l))))
          (else
           (cons (car l) (subst* new old (cdr l))))))
-       (else
-        (cons 
-         (subst* new old (car l)) 
-         (subst* new old (cdr l)))))))
+      (else
+       (cons 
+        (subst* new old (car l)) 
+        (subst* new old (cdr l)))))))
 ;insertL*
 (define insertL*
   (lambda (new old l)
@@ -454,30 +454,30 @@
                       (insertL* new old (cdr l)))))
          (else (cons (car l) 
                      (insertL* new old (cdr l))))))
-       (else
-        (cons
-         (insertL* new old (car l))
-         (insertL* new old (cdr l)))))))
+      (else
+       (cons
+        (insertL* new old (car l))
+        (insertL* new old (cdr l)))))))
 
 ;member*
 (define member*
   (lambda (a l)
     (cond
       ((null? l) #f)
-       ((atom? (car l))
-        (cond
-          ((eq? a (car l)) #t)
-          (else (member* a (cdr l)))))
-       (else
-        (or (member* a (car l)) (member* a (cdr l)))))))
-               
+      ((atom? (car l))
+       (cond
+         ((eq? a (car l)) #t)
+         (else (member* a (cdr l)))))
+      (else
+       (or (member* a (car l)) (member* a (cdr l)))))))
+
 ;leftmost 
 (define leftmost
   (lambda (l)
     (cond
-    ((atom? (car l)) (car l))
-    (else
-     (leftmost (car l))))))
+      ((atom? (car l)) (car l))
+      (else
+       (leftmost (car l))))))
 
 ;define eqlist
 (define eqlist?
@@ -493,11 +493,11 @@
        (and
         (eqlist? (car l1) (car l2))
         (eqlist? (cdr l1) (cdr l2)))))))
-      
-       
-      
-      
-      
+
+
+
+
+
 (eqlist? '(strawberry ice cream) '(strawberry ice cream)) 
 
 
@@ -515,7 +515,7 @@
     (cond
       ((null? lat) #t)
       ((member? (car lat) (cdr lat)) #f)
-       (else (set? (cdr lat))))))
+      (else (set? (cdr lat))))))
 
 ;define makeset
 (define makeset
@@ -551,3 +551,5 @@
       ((subset? set1 set2)
        (subset? set2 set1))
       (else #f))))
+
+
