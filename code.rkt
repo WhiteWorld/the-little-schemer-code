@@ -551,3 +551,14 @@
       ((subset? set1 set2)
        (subset? set2 set1))
       (else #f))))
+
+
+;;8
+
+
+(define eq?-c
+  (lambda (a)
+    (lambda (x)
+      (eq? x a))))
+
+; The Ninth Commandment
